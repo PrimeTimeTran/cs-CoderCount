@@ -9,7 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const initialState = {
-  count: 10,
+  count: 3,
   indexColors: [null],
   defaultColor: "rgb(215, 71, 66)",
 };
