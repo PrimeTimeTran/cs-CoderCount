@@ -1,15 +1,20 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 
 import { useSelector, useDispatch } from "react-redux";
 
 import "./App.css";
 
+import Navbar from "./components/NavigationBar";
+
 function App() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
+  const countState = useSelector((state) => state.count);
+  const authState = useSelector((state) => state.auth);
+  console.log({ authState });
 
   return (
-    <div className="App p-3">
+    <div className="App">
+      <Navbar />
       <Container fluid>
         <Row>
           <Col className="bg-success d-flex justify-content-center p-3">
@@ -32,20 +37,33 @@ function App() {
         </Row>
         <Row>
           <Col>
-            {Array.from(Array(state.count)).map((c, idx) => {
-              const boxColor = state.indexColors[idx] || state.defaultColor;
+            {Array.from(Array(countState.count)).map((c, idx) => {
+              const boxColor =
+                (countState.indexColors[idx] &&
+                  countState.indexColors[idx].color) ||
+                countState.defaultColor;
+              const email =
+                countState.indexColors[idx] &&
+                countState.indexColors[idx].email;
               return (
                 <div
                   key={idx}
                   className="d-flex justify-content-around rounded my-1 p-4"
                   style={{ backgroundColor: boxColor }}
                 >
-                  Box {idx}
+                  <div className="mb-3">
+                    <h1>Box {idx}</h1>
+                    {email}
+                  </div>
                   <input
                     onChange={(e) =>
                       dispatch({
                         type: "CHANGE_SPECIFIC_BOX",
-                        payload: { color: e.target.value, index: idx },
+                        payload: {
+                          index: idx,
+                          color: e.target.value,
+                          email: authState.email,
+                        },
                       })
                     }
                   ></input>

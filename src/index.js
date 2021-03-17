@@ -2,32 +2,35 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const initialState = {
-  count: 10,
+  count: 3,
   indexColors: [null],
   defaultColor: "rgb(215, 71, 66)",
 };
 
-export default function countReducer(state = initialState, action) {
+function countReducer(state = initialState, action) {
   switch (action.type) {
-    case 'CHANGE_COLOR':
+    case "CHANGE_COLOR":
       return {
         ...state,
-        defaultColor: action.payload
-      }
+        defaultColor: action.payload,
+      };
     case "CHANGE_SPECIFIC_BOX":
-      const indexColors = state.indexColors
-      indexColors[action.payload.index] = action.payload.color
+      const indexColors = state.indexColors;
+      indexColors[action.payload.index] = {
+        color: action.payload.color,
+        email: action.payload.email,
+      };
       return {
         ...state,
-        indexColors: indexColors
-      }
+        indexColors: indexColors,
+      };
     case "INCREMENT":
       return {
         ...state,
@@ -36,14 +39,42 @@ export default function countReducer(state = initialState, action) {
     case "DECREMENT":
       return {
         ...state,
-        count: state.count - 1
+        count: state.count - 1,
       };
     default:
       return state;
   }
 }
 
-const store = createStore(countReducer);
+const initialAuthState = {
+  email: null,
+  isSignedIn: false,
+};
+
+function authReducer(state = initialAuthState, action) {
+  console.log({ la: state, action });
+  switch (action.type) {
+    case "SIGN_IN":
+      return {
+        isSignedIn: true,
+        email: action.payload.email,
+      };
+    case "SIGN_OUT":
+      return {
+        isSignedIn: false,
+        email: null,
+      };
+    default:
+      return state;
+  }
+}
+
+const reducers = combineReducers({
+  count: countReducer,
+  auth: authReducer,
+});
+
+const store = createStore(reducers);
 
 ReactDOM.render(
   <React.StrictMode>
