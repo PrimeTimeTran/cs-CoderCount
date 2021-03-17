@@ -16,9 +16,9 @@ function App() {
       <Navbar />
       <Container fluid>
         <Row>
-          <Col className="bg-success d-flex flex-column align-items-center justify-content-center p-3">
+          <Col className="d-flex flex-column align-items-center justify-content-center p-3 pb-4 m-3 border">
             <div>
-              <h1>{countState.count}</h1>
+              <h1 className="font-italic">{countState.count}</h1>
             </div>
             <div className="d-flex align-items-center justify-content-center">
               <input
@@ -55,11 +55,11 @@ function App() {
               return (
                 <div
                   key={idx}
-                  className="d-flex justify-content-around rounded my-1 p-4 border"
+                  className="d-flex justify-content-around rounded my-2 p-3 box-border"
                   style={{ backgroundColor: boxColor }}
                 >
                   <div className="w-100">
-                    <h1 className="font-weight-bold">Box {idx}</h1>
+                    <h1 className="font-weight-bold">Box {idx + 1}</h1>
                     {email}
                   </div>
                   <div className="w-100 d-flex align-items-center">
